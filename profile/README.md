@@ -4,33 +4,40 @@
 
 ### `quack a swarm. flat the bill.`
 
-**Inferência flat-rate e API-compatível para agentes de código.**
-Preço mensal fixo. Throughput dedicado. Sem medidor por token, sem conta surpresa.
+**Banda dedicada para swarms de agentes de código.**
+Inferência flat-rate: uncapped tokens, throughput dedicado, conta previsível — sem bill-shock.
 
 **Português (BR)** · [English](README.en.md) · [Español](README.es.md)
 
 [Discord](https://discord.gg/MuN6VzTEA3) · [Waitlist](https://quect.ai) · [quect.ai](https://quect.ai)
 
-> ⚠️ **Pre-launch.** Beta fechado em waves num único nó A100 reserved. Nada aqui está no ar ainda — dá uma ⭐ e entra na waitlist pra ser puxado numa wave.
+> ⚠️ **Pre-launch · junho 2026.** Beta fechado em waves. Nada no ar ainda — dá uma ⭐ e entra na waitlist; a gente avisa quando o primeiro nó subir.
 
 </div>
 
 ---
 
-## O que é isso
+## O problema
 
-Rodar agentes de código (Claude Code, Cline, Aider, Codex, OpenCode) em API por token significa conta imprevisível — $5–30/dia em BYOK, saltos surpresa quando o provider vira pro modelo de metering. Isso é a era do discado da inferência.
+O dev power-user de 2026 paga **$200–600/mês** em token, e o mercado migrou todo pra metering nos últimos 12 meses. A conta é imprevisível:
 
-Quect é a camada de banda larga: uma **assinatura** no lugar de um medidor.
+- **Copilot** — $29 virou **$750**/mês depois do flip pra metering
+- **Replit** — plano de $25, bills surpresa de **$100–300**
+- **Uber** — capou engenheiros em **$1.500/mês** após queimar o budget anual em 4 meses
 
-- **Tokens sem limite** — loop 24/7. (Não é "unlimited" — tokens uncapped sob fair-use AUP.)
-- **Throughput dedicado** — limite em tokens/segundo, não em volume. A velocidade é sua.
-- **Queue gateway** — bursts acima do seu throughput entram numa fila assíncrona de milissegundos. Nunca bloqueia, nunca cobra extra.
-- **Sem CLI proprietário** — é um gateway compatível com a API da OpenAI/Anthropic. Aponta a base URL da ferramenta que você já usa pra cá. Pronto.
+Deixar um swarm rodando 24/7 vira roleta-russa de fatura.
 
-## Compatibilidade drop-in
+## A solução: banda larga para inferência
 
-Quect fala as APIs da OpenAI e da Anthropic. Troca uma URL:
+O mesmo salto que a banda larga deu na telefonia — de pagar por minuto → assinatura fixa com velocidade dedicada. Quect aplica isso a tokens:
+
+- **🦆 Tokens sem limite** — assinatura fixa, loops e swarms 24/7 sem contador rodando no fundo. *(uncapped tokens, fair-use AUP — não "unlimited".)*
+- **⚡ Throughput dedicado** — largura de banda em tokens/s por conta. Honesto, previsível, sem letrinha miúda.
+- **🌊 Queue gateway** — excesso entra em fila de milissegundos. Nunca bloqueia, nunca cobra extra.
+
+## Pluga nas ferramentas que você já usa
+
+Endpoint **OpenAI-API-compatible** (+ Anthropic). Se o seu agent/harness fala a API, aponta a base URL pro Quect — sem CLI novo, sem migração.
 
 ```bash
 # OpenAI-compatible (Cline, Aider, Codex, Continue, OpenCode…)
@@ -54,31 +61,30 @@ curl https://api.quect.ai/v1/chat/completions \
 
 *(Os endpoints entram no ar por wave de beta. O contrato acima é o alvo.)*
 
-## Modelos
+## Multi-modelo OSS · routing automático
 
-Open-weight, servidos com quants [Unsloth Dynamic 2.0](https://huggingface.co/unsloth) (~82% top-1 vs original em 2-bit) sobre vLLM.
+O modelo certo pra cada tarefa, escolhido automaticamente. Precisa do topo? Frontier (Sonnet/GPT) entra por pass-through no Enterprise.
 
-| Alias | Modelo | Caso de uso |
-|-------|--------|-------------|
-| `quect-lite` | Qwen3.6-27B (11.8GB Q2) | Autocomplete, lint-fix, single-file |
-| `quect-swarm` ⭐ | Qwen3-Coder-Next — MoE 80B / 3B ativos (26.8GB Q2) | Refactor multi-file, 256k context |
-| `quect-max` | GLM-5.2 / frontier pass-through *(Enterprise)* | Long-horizon, análise crítica |
+| Modelo | Caso de uso | Tier |
+|--------|-------------|------|
+| **Qwen3-Coder-Next** ⭐ | flagship · multi-file · 256k context | SWARM |
+| **Qwen3.6-27B** | daily driver · refactor + TDD · vision | LITE · SWARM |
+| **GLM-5.2** | long-horizon · 1M token context | ENTERPRISE |
+| **MiniMax-M3** | análise massiva · raciocínio extenso | ENTERPRISE |
+| **MiMo-V2.5-Pro** | agent harnesses complexos | ENTERPRISE |
 
-**Por que é barato sem ser ruim:** `quect-swarm` é MoE com só ~3B params ativos por forward pass — 27GB no disco, mas batcha como um 3B. Um A100 serve 16–20 conexões simultâneas.
+*Catálogo curado pelos melhores modelos open-source do [LMArena WebDev leaderboard](https://arena.ai/leaderboard/code/webdev?license=open-source) · sujeito a mudança — modelos novos entram, antigos são depreciados.*
 
-## Trade-off honesto
+## Planos
 
-Isso é inferência open-weight: ~80% da qualidade do Sonnet em código, com gap de 10–15pp em SWE-bench. Ótimo pros 90% mecânicos do trabalho de agente; pros 10% difíceis, usa o frontier pass-through no tier de cima. Flat-rate vira o jogo de qualquer jeito — rodar 10 tentativas custa o mesmo que rodar 1.
+| Tier | Preço | Throughput | Pra quem |
+|------|-------|-----------|----------|
+| **DEV LITE** | $30/mês | 30–40 tok/s · 1 agente | estudante · iniciante |
+| **DEV SWARM** ⭐ | $59/mês | 90–120 tok/s · 3 agentes | sênior · freelancer |
+| **CORP SWARM** | $249/mês | 400–500 tok/s · 5 seats | startup · agência |
+| **ENTERPRISE** | $999+/mês | 150–300 tok/s · dedicada | compliance · privacidade |
 
-Tese completa e unit economics: [`The economics of flat-rate inference`](https://quect.ai/blog/flat-rate-inference).
-
-## Status & roadmap
-
-- [x] Tese, pricing e unit economics validados
-- [ ] Compat gateway (OpenAI + Anthropic) — **em progresso**
-- [ ] Beta fechado · wave 1 (único A100 reserved)
-- [ ] Métricas públicas: uptime · tok/s · tamanho da fila
-- [ ] Tier CORP (seats, painel admin, SSO)
+*Uncapped tokens, fair-use AUP · throughput por conta no LITE/SWARM, por seats no CORP. Planos e números sujeitos a ajuste até o launch.*
 
 ## Entra na fila
 

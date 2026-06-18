@@ -4,33 +4,40 @@
 
 ### `quack a swarm. flat the bill.`
 
-**Inferencia flat-rate y compatible con API para agentes de código.**
-Precio mensual fijo. Throughput dedicado. Sin medidor por token, sin factura sorpresa.
+**Ancho de banda dedicado para swarms de agentes de código.**
+Inferencia flat-rate: uncapped tokens, throughput dedicado, una factura predecible — sin bill-shock.
 
 [Português (BR)](README.md) · [English](README.en.md) · **Español**
 
 [Discord](https://discord.gg/MuN6VzTEA3) · [Waitlist](https://quect.ai) · [quect.ai](https://quect.ai)
 
-> ⚠️ **Pre-launch.** Beta cerrada por waves en un único nodo A100 reserved. Todavía no hay nada en vivo — dale ⭐ y únete a la waitlist para entrar en una wave.
+> ⚠️ **Pre-launch · junio 2026.** Beta cerrada por waves. Todavía nada en vivo — dale ⭐ y únete a la waitlist; te avisamos cuando suba el primer nodo.
 
 </div>
 
 ---
 
-## Qué es esto
+## El problema
 
-Correr agentes de código (Claude Code, Cline, Aider, Codex, OpenCode) con APIs por token significa una factura impredecible — $5–30/día en BYOK, saltos sorpresa cuando el proveedor cambia a medición por uso. Esa es la era del dial-up de la inferencia.
+El dev power-user de 2026 paga **$200–600/mes** en tokens, y el mercado entero migró a medición por uso en los últimos 12 meses. La factura es impredecible:
 
-Quect es la capa de banda ancha: una **suscripción** en lugar de un medidor.
+- **Copilot** — $29 se volvió **$750**/mes tras el cambio a metering
+- **Replit** — plan de $25, facturas sorpresa de **$100–300**
+- **Uber** — limitó a sus ingenieros en **$1.500/mes** tras quemar el presupuesto anual en 4 meses
 
-- **Tokens sin tope** — loop 24/7. (No es "unlimited" — tokens uncapped bajo un fair-use AUP.)
-- **Throughput dedicado** — limitado en tokens/segundo, no en volumen. La velocidad es tuya.
-- **Queue gateway** — los picos por encima de tu throughput entran en una cola asíncrona de milisegundos. Nunca bloquea, nunca cobra de más.
-- **Sin CLI propietario** — es un gateway compatible con la API de OpenAI/Anthropic. Apunta la base URL de tu herramienta actual aquí. Listo.
+Dejar un swarm corriendo 24/7 se vuelve una ruleta rusa de factura.
 
-## Compatibilidad drop-in
+## La solución: banda ancha para inferencia
 
-Quect habla las APIs de OpenAI y Anthropic. Cambia una URL:
+El mismo salto que la banda ancha dio sobre la telefonía — de pagar por minuto → una suscripción fija con velocidad dedicada. Quect lo aplica a los tokens:
+
+- **🦆 Tokens sin tope** — suscripción fija, loops y swarms 24/7 sin medidor corriendo de fondo. *(uncapped tokens, fair-use AUP — no "unlimited".)*
+- **⚡ Throughput dedicado** — ancho de banda en tokens/s por cuenta. Honesto, predecible, sin letra chica.
+- **🌊 Queue gateway** — el exceso entra en una cola de milisegundos. Nunca bloquea, nunca cobra de más.
+
+## Conéctalo a las herramientas que ya usas
+
+Endpoint **compatible con la API de OpenAI** (+ Anthropic). Si tu agent/harness habla la API, apunta su base URL a Quect — sin CLI nuevo, sin migración.
 
 ```bash
 # OpenAI-compatible (Cline, Aider, Codex, Continue, OpenCode…)
@@ -54,31 +61,30 @@ curl https://api.quect.ai/v1/chat/completions \
 
 *(Los endpoints entran en vivo por wave de beta. El contrato de arriba es el objetivo.)*
 
-## Modelos
+## Multi-modelo OSS · routing automático
 
-Open-weight, servidos con quants [Unsloth Dynamic 2.0](https://huggingface.co/unsloth) (~82% top-1 vs original en 2-bit) sobre vLLM.
+El modelo correcto para cada tarea, elegido automáticamente. ¿Necesitas el tope? Frontier (Sonnet/GPT) entra por pass-through en Enterprise.
 
-| Alias | Modelo | Caso de uso |
-|-------|--------|-------------|
-| `quect-lite` | Qwen3.6-27B (11.8GB Q2) | Autocomplete, lint-fix, single-file |
-| `quect-swarm` ⭐ | Qwen3-Coder-Next — MoE 80B / 3B activos (26.8GB Q2) | Refactor multi-file, 256k context |
-| `quect-max` | GLM-5.2 / frontier pass-through *(Enterprise)* | Long-horizon, análisis crítico |
+| Modelo | Caso de uso | Tier |
+|--------|-------------|------|
+| **Qwen3-Coder-Next** ⭐ | flagship · multi-file · 256k context | SWARM |
+| **Qwen3.6-27B** | daily driver · refactor + TDD · vision | LITE · SWARM |
+| **GLM-5.2** | long-horizon · 1M token context | ENTERPRISE |
+| **MiniMax-M3** | análisis masivo · razonamiento extenso | ENTERPRISE |
+| **MiMo-V2.5-Pro** | agent harnesses complejos | ENTERPRISE |
 
-**Por qué es barato sin ser malo:** `quect-swarm` es MoE con solo ~3B params activos por forward pass — 27GB en disco, pero batchea como un 3B. Un A100 sirve 16–20 conexiones simultáneas.
+*Catálogo curado entre los mejores modelos open-source del [LMArena WebDev leaderboard](https://arena.ai/leaderboard/code/webdev?license=open-source) · sujeto a cambios — entran modelos nuevos, se deprecian los viejos.*
 
-## Trade-off honesto
+## Planes
 
-Esto es inferencia open-weight: ~80% de la calidad de Sonnet en código, con una brecha de 10–15pp en SWE-bench. Excelente para el 90% mecánico del trabajo de agente; para el 10% difícil, usa el frontier pass-through en el tier superior. Flat-rate da vuelta la cuenta de todos modos — correr 10 intentos cuesta lo mismo que correr 1.
+| Tier | Precio | Throughput | Para quién |
+|------|--------|-----------|------------|
+| **DEV LITE** | $30/mes | 30–40 tok/s · 1 agente | estudiante · principiante |
+| **DEV SWARM** ⭐ | $59/mes | 90–120 tok/s · 3 agentes | senior · freelancer |
+| **CORP SWARM** | $249/mes | 400–500 tok/s · 5 seats | startup · agencia |
+| **ENTERPRISE** | $999+/mes | 150–300 tok/s · dedicada | compliance · privacidad |
 
-Tesis completa y unit economics: [`The economics of flat-rate inference`](https://quect.ai/blog/flat-rate-inference).
-
-## Status & roadmap
-
-- [x] Tesis, pricing y unit economics validados
-- [ ] Compat gateway (OpenAI + Anthropic) — **en progreso**
-- [ ] Beta cerrada · wave 1 (único A100 reserved)
-- [ ] Métricas públicas: uptime · tok/s · tamaño de cola
-- [ ] Tier CORP (seats, panel admin, SSO)
+*Uncapped tokens, fair-use AUP · throughput por cuenta en LITE/SWARM, por seat en CORP. Planes y números sujetos a ajuste hasta el launch.*
 
 ## Únete
 
