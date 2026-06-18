@@ -9,7 +9,7 @@ Preço mensal fixo. Throughput dedicado. Sem medidor por token, sem conta surpre
 
 **Português (BR)** · [English](README.en.md) · [Español](README.es.md)
 
-[Discord]([DISCORD]) · [Waitlist]([WAITLIST]) · [quect.ai](https://quect.ai)
+[Discord](https://discord.gg/MuN6VzTEA3) · [Waitlist](https://quect.ai) · [quect.ai](https://quect.ai)
 
 > ⚠️ **Pre-launch.** Beta fechado em waves num único nó A100 reserved. Nada aqui está no ar ainda — dá uma ⭐ e entra na waitlist pra ser puxado numa wave.
 
@@ -83,8 +83,8 @@ Tese completa e unit economics: [`The economics of flat-rate inference`](https:/
 ## Entra na fila
 
 1. ⭐ neste repo
-2. Entra no [Discord]([DISCORD])
-3. [Waitlist]([WAITLIST]) — conta quanto você gasta/mês em token + qual harness usa
+2. Entra no [Discord](https://discord.gg/MuN6VzTEA3)
+3. [Waitlist](https://quect.ai) — conta quanto você gasta/mês em token + qual harness usa
 
 ## Licença
 

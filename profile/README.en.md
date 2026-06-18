@@ -9,7 +9,7 @@ Fixed monthly price. Dedicated throughput. No per-token meter, no surprise bill.
 
 [Português (BR)](README.md) · **English** · [Español](README.es.md)
 
-[Discord]([DISCORD]) · [Waitlist]([WAITLIST]) · [quect.ai](https://quect.ai)
+[Discord](https://discord.gg/MuN6VzTEA3) · [Waitlist](https://quect.ai) · [quect.ai](https://quect.ai)
 
 > ⚠️ **Pre-launch.** Closed beta in waves on a single reserved A100 node. Nothing here is live yet — star + join the waitlist to get pulled into a wave.
 
@@ -83,8 +83,8 @@ The full thesis and unit economics: [`The economics of flat-rate inference`](htt
 ## Get in
 
 1. ⭐ this repo
-2. Join the [Discord]([DISCORD])
-3. [Waitlist]([WAITLIST]) — tell us your current monthly token spend + which harness you use
+2. Join the [Discord](https://discord.gg/MuN6VzTEA3)
+3. [Waitlist](https://quect.ai) — tell us your current monthly token spend + which harness you use
 
 ## License
 
